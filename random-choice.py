@@ -2,14 +2,21 @@ import random
 import argparse
     
 def main(args: argparse.Namespace) -> int:
-    with open(args.file, encoding = "utf-8") as f:
-        lines: list[str] = list(map(lambda x: x.strip(), f.readlines()))
+    try:
+        with open(args.file, encoding = "utf-8") as f:
+            lines: list[str] = list(map(lambda x: x.strip(), f.readlines()))
+    except:
+        print(f"Failed to read file '{args.file}'")
+        return 1
+
     if args.k > len(lines):
         print("Warning: k is bigger than number of lines.")
+
     chosen_lines: list = random.sample(lines, k = args.k)
 
     for i, line in enumerate(chosen_lines, 1):
         print(f"{i}. {line}")
+    return 0
 
 if __name__ == "__main__":
     parser: argparse.ArgumentParser = argparse.ArgumentParser()
